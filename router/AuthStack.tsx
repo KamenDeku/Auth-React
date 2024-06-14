@@ -5,7 +5,7 @@ import LoginPage from "../pages/LoginPage";
 const Stack = createNativeStackNavigator();
 function AuthStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown:false}}>
       <Stack.Screen name="Login" component={LoginPage} />
     </Stack.Navigator>
   );
