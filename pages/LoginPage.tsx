@@ -1,57 +1,55 @@
-import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, ViewProps, ActivityIndicator } from "react-native";
-import useAuth from "../hooks/useAuth";
-
-
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, ActivityIndicator, ImageBackground } from "react-native";
+import useAuth from "../hooks/useAuth"; // Importación del hook useAuth para manejar la autenticación
 
 function LoginPage() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState<string>(''); // Estado para almacenar el nombre de usuario
+    const [password, setPassword] = useState<string>(''); // Estado para almacenar la contraseña
 
+    const { login, loading } = useAuth(); // Desestructuración del hook useAuth para obtener la función de login y el estado de carga
 
-    const { login, loading } = useAuth();
-
-    const handleLogin = async () => {
-        await login(username, password);
+    const handleLogin = async () => { // Función asincrónica para manejar el inicio de sesión
+        await login(username, password); // Llama a la función de login pasando el nombre de usuario y contraseña
     };
 
-
-    if(loading){
+    if (loading) { // Si está cargando la autenticación
         return (
             <View style={styles.mainContainer}>
-                <ActivityIndicator/>
+                <ActivityIndicator /> // Muestra un indicador de carga
             </View>
         );
     }
 
     return (
-        <View style={styles.mainContainer}>
-            <View style={styles.loginContainer}>
-                <Text style={styles.loginTitle}>Welcome!</Text>
-                <View style={styles.loginInnerContainer}>
-                    <Text style={styles.loginText}>Username</Text>
-                    <TextInput
-                        style={styles.loginInput}
-                        onChangeText={setUsername}
-                        placeholder="Enter username"
-                        placeholderTextColor="#A9A9A9"
-                    />
+        <ImageBackground source={require('../assets/FaizBackGround.jpg')} style={styles.backgroundImage}>
+            <View style={styles.mainContainer}>
+                <View style={styles.loginContainer}>
+                    <Text style={styles.loginTitle}>Welcome!</Text> {/* Título de bienvenida */}
+                    <View style={styles.loginInnerContainer}>
+                        <Text style={styles.loginText}>Username</Text> {/* Etiqueta para el campo de usuario */}
+                        <TextInput
+                            style={styles.loginInput}
+                            onChangeText={setUsername}
+                            placeholder="Enter username" // Placeholder del campo de usuario
+                            placeholderTextColor="#FFFFFF" // Color del texto del placeholder en blanco
+                        />
+                    </View>
+                    <View style={styles.loginInnerContainer}>
+                        <Text style={styles.loginText}>Password</Text> {/* Etiqueta para el campo de contraseña */}
+                        <TextInput
+                            style={styles.loginInput}
+                            onChangeText={setPassword}
+                            secureTextEntry={true}
+                            placeholder="Enter password" // Placeholder del campo de contraseña
+                            placeholderTextColor="#FFFFFF" // Color del texto del placeholder en blanco
+                        />
+                    </View>
+                    <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
+                        <Text style={styles.loginButtonText}>Login</Text> {/* Botón de inicio de sesión */}
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.loginInnerContainer}>
-                    <Text style={styles.loginText}>Password</Text>
-                    <TextInput
-                        style={styles.loginInput}
-                        onChangeText={setPassword}
-                        secureTextEntry={true}
-                        placeholder="Enter password"
-                        placeholderTextColor="#A9A9A9"
-                    />
-                </View>
-               <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-                    <Text style={styles.loginButtonText}>Login</Text>
-                </TouchableOpacity> 
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 
@@ -60,48 +58,57 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F0F8FF',
         padding: 20,
     },
-    loginContainer: {
-        backgroundColor: '#FFFFFF',
+    backgroundImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loginContainer: {//Card que tiene todos los espacios para el user input
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Fondo semi-transparente negro
         padding: 20,
         width: 300,
         borderRadius: 10,
         shadowColor: '#000',
-        shadowOpacity: 0.2,
+        shadowOpacity: 1.0,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 2 },
         elevation: 5,
+        alignItems: 'center', // Centra el contenido horizontalmente
+        position: 'relative', // Posición relativa para permitir posicionamiento absoluto de elementos hijos
     },
     loginInnerContainer: {
         marginVertical: 10,
         width: '100%',
     },
-    loginTitle: {
+    loginTitle: {//Titulo del login page
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#333333',
+        color: '#FFF', // Texto blanco
         textAlign: 'center',
         marginBottom: 20,
     },
-    loginText: {
+    loginText: {//Texto de titulo espacios para user input
         fontSize: 18,
-        color: '#333333',
+        color: '#FFF', // Texto blanco
         marginBottom: 5,
     },
-    loginInput: {
-        backgroundColor: '#F8F8F8',
+    loginInput: {//Input del usuario
+        backgroundColor: '#000', // Fondo negro
         borderRadius: 5,
         padding: 10,
-        borderColor: '#DDDDDD',
-        borderWidth: 1,
+        borderColor: '#de1414',
+        borderWidth: 6,
         width: '100%',
         fontSize: 16,
+        color: '#FFF', // Texto blanco
     },
-    loginButton: {
+    loginButton: {//Boton
         marginTop: 20,
-        backgroundColor: '#1E90FF',
+        backgroundColor: '#de1414',
         borderRadius: 5,
         padding: 15,
         width: '100%',
@@ -114,5 +121,4 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default LoginPage
+export default LoginPage;
